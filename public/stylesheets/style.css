@@ -1,0 +1,38 @@
+.card-graph {}
+
+.card-title {
+    font-size: 1rem;
+}
+
+/*
+canvas{
+  height:300px !important;
+}
+*/
+
+.navbar {
+    background-color: #8d56A8;
+}
+
+.loading-icon {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #666;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+    margin-top: 5px;
+    position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
