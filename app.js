@@ -3,7 +3,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var sequelize = require('sequelize');
 
 var indexRouter = require('./routes/index');
 var graphsRouter = require('./routes/graphs');
@@ -43,23 +42,5 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
-
-// Database setup
-const connection = new sequelize('db', 'user', 'pass', {
-    host: 'localhost',
-    dialect: 'sqlite',
-    storage: './captcha-monitor.db',
-    operatorsAliases: false
-})
-
-// Connect to the database
-connection
-    .authenticate()
-    .then(() => {
-        console.log('Connection to database established successfully.');
-    })
-    .catch(err => {
-        console.log('Unable to connect to the database: ', err);
-    })
 
 module.exports = app;
