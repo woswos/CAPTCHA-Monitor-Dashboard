@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var dbHandle = require('../db/db_connector.js');
+var dbHandle = require('../utils/db_connector.js');
 
 function daysBetween(date1, date2) {
     date1 = Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate());
@@ -23,15 +23,15 @@ function dateFormat(date) {
 /* GET users listing. */
 router.get('/tbb_security_levels', function(req, res, next) {
 
-    let db = dbHandle.connect('./db/captcha-monitor.db');
-    //let sql = 'SELECT * FROM results WHERE tbb_security_level = "low"';
+    let db = dbHandle.connect();
+    
     let sql = `
     SELECT timestamp, tbb_security_level, is_captcha_found, count(*) AS 'count'
     FROM results
     -- Group by columns and put into 1 day bins
     GROUP BY tbb_security_level, is_captcha_found, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
     ORDER BY timestamp
-    -- LIMIT 50
+    LIMIT 50
     `;
 
     let params = []
@@ -116,14 +116,14 @@ router.get('/tbb_security_levels', function(req, res, next) {
 
 router.get('/http_vs_https', function(req, res, next) {
 
-    let db = dbHandle.connect('./db/captcha-monitor.db');
-    //let sql = 'SELECT * FROM results WHERE tbb_security_level = "low"';
+    let db = dbHandle.connect();
+
     let sql = `
     SELECT timestamp, url, is_captcha_found, count(*) AS 'count'
     FROM results
     GROUP BY is_captcha_found, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
     ORDER BY timestamp
-    -- LIMIT 50
+    LIMIT 50
     `;
 
     let params = []
@@ -204,14 +204,14 @@ router.get('/http_vs_https', function(req, res, next) {
 
 router.get('/single_vs_multiple_http_reqs', function(req, res, next) {
 
-    let db = dbHandle.connect('./db/captcha-monitor.db');
-    //let sql = 'SELECT * FROM results WHERE tbb_security_level = "low"';
+    let db = dbHandle.connect();
+
     let sql = `
     SELECT timestamp, url, is_captcha_found, count(*) AS 'count'
     FROM results
     GROUP BY is_captcha_found, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
     ORDER BY timestamp
-    -- LIMIT 50
+    LIMIT 50
     `;
 
     let params = []
@@ -296,14 +296,14 @@ i <
 
 router.get('/ip_versions', function(req, res, next) {
 
-    let db = dbHandle.connect('./db/captcha-monitor.db');
-    //let sql = 'SELECT * FROM results WHERE tbb_security_level = "low"';
+    let db = dbHandle.connect();
+
     let sql = `
     SELECT timestamp, url, is_captcha_found, count(*) AS 'count'
     FROM results
     GROUP BY is_captcha_found, (strftime('%s', timestamp) / (6 * 60 * 60 * 4)), instr(url, 'captcha.wtf')
     ORDER BY timestamp
-    -- LIMIT 50
+    LIMIT 50
     `;
 
     let params = []
