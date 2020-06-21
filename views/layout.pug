@@ -64,5 +64,15 @@ html(lang='en')
 						],
 						'order': [[ 0, '#{results_order}' ]],
 						//'pageLength': 20
+						"oSearch": { "sSearch": decodeURIComponent(window.location.hash.substring(1)) }
 					} );
+
+					// Get what is entered into the search box and place it into the url
+					$('#search_table').on('search.dt', function() {
+						var value = $('.dataTables_filter input').val();
+						window.location.hash = value;
+						//window.location.search = value;
+						//console.log(value);
+					}); 
+
 				} );
