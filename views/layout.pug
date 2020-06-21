@@ -1,3 +1,4 @@
+block variables
 doctype html
 html(lang='en')
 	head
@@ -28,7 +29,40 @@ html(lang='en')
 		script(src='/javascripts/libraries/bootstrap.min.js')
 		script(src='/javascripts/libraries/jquery.dataTables.min.js')
 		script(src='/javascripts/libraries/dataTables.bootstrap4.min.js')
-		//- script(type="text/javascript").
-		//- 	$(document).ready( function () {
-		//- 		$('#search_table').DataTable();
-		//- 	} );
+
+		// This needs to be placed at the very end of the page
+		if(place_table == true)
+			script(type="text/javascript").
+				$(document).ready(function() {
+					$('#search_table').DataTable( {
+						'ajax': {
+							url: '/api/measurements/#{results_limit}',
+							dataSrc: function ( json ) {
+								for(let i = 0; i < json.results.length; i++){
+									json.results[i].id = '<a href="/measurements/details/' + 
+										json.results[i].id + '" target="_blank">' +
+										json.results[i].id + '</a>';
+
+									json.results[i].exit_node = '<a href="https://metrics.torproject.org/rs.html#search/' + 
+										json.results[i].exit_node + '" target="_blank">' +
+										json.results[i].exit_node + '</a>';
+
+									let text_mapping = {1: 'Yes', 0: 'No'};
+									json.results[i].is_captcha_found = text_mapping[json.results[i].is_captcha_found];
+								}
+								return json.results;
+							}
+						},
+						'columns': [
+							{ 'data': 'id' },
+							{ 'data': 'timestamp' },
+							{ 'data': 'method' },
+							{ 'data': 'tbb_security_level' },
+							{ 'data': 'url' },
+							{ 'data': 'exit_node' },
+							{ 'data': 'is_captcha_found' }
+						],
+						'order': [[ 0, '#{results_order}' ]],
+						//'pageLength': 20
+					} );
+				} );

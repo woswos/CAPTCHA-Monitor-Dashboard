@@ -1,5 +1,10 @@
 extends layout
 
+block variables
+	- var place_table = true
+	- var results_limit = 1500
+	- var results_order = 'desc'
+
 block content
 	div(class='container')
 		h3(class='mb-4') Measurement Search
@@ -49,31 +54,4 @@ block content
 							| is the IPv6 only domain used in the measurements. You might
 							| also use them for the search criteria.
 
-		div(class='row no-gutters')
-			div(class='col-md')
-				table(id="search_table" class="table table-striped table-bordered")
-					thead
-						tr
-							th(scope='col') ID
-							th(scope='col') Timestamp (UTC)
-							th(scope='col') Method
-							th(scope='col') 
-								| Tor Browser 
-								br 
-								| Security Level
-							th(scope='col') URL
-							th(scope='col') Exit Node
-							th(scope='col') 
-								| Faced
-								br
-								| CAPTCHA ?
-					tbody
-						div(class="loading-icon loading_icon_summary_table" id='loading_icon_summary_table')   
-
-	// Center the table cells only here
-	style.
-		.table td, th {
-			text-align: center;
-		}
-
-	script(src='/javascripts/search_datatables.js')
+		include includes/table.pug

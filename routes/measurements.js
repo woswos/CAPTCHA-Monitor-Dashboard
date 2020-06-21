@@ -7,13 +7,13 @@ router.get('/details', function(req, res, next) {
 
 router.get('/', function(req, res, next) {
     res.render('measurements_summary', {
-        title: 'CAPTCHA Monitor | Measurements',
+        title: 'CAPTCHA Monitor | Measurements'
     });
 });
 
 router.get('/full', function(req, res, next) {
     res.render('measurements_full', {
-        title: 'CAPTCHA Monitor | Measurements',
+        title: 'CAPTCHA Monitor | Measurements'
     });
 });
 
