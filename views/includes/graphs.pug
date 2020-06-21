@@ -8,9 +8,10 @@ div(class='row no-gutters')
 					| Percentage of CAPTCHA faced exit nodes by
 					br
 					| Tor Browser security level
-				div(class="chart-container" style="position: relative; height:100%; width:100%")
-					canvas(id="tbb_security_levels" class='card-graph') Your browser does not support the canvas element.
-					div(class="loading-icon" id='loading-icon-tbb_security_levels')
+				div(class='chart-container-dimension')
+					div(class="chart-container" style="position: relative; height:100%; width:100%")
+						canvas(id="tbb_security_levels" class='card-graph') Your browser does not support the canvas element.
+						div(class="loading-icon" id='loading-icon-tbb_security_levels')
 
 	// IPv4 vs IPv6
 	div(class='col-md')
@@ -20,9 +21,10 @@ div(class='row no-gutters')
 					| Percentage of CAPTCHA faced exit nodes by
 					br
 					| IP version
-				div(class="chart-container" style="position: relative; height:100%; width:100%")
-					canvas(id='ip_versions' class='card-graph') Your browser does not support the canvas element. 
-					div(class="loading-icon" id='loading-icon-ip_versions')        
+				div(class='chart-container-dimension')
+					div(class="chart-container" style="position: relative; height:100%; width:100%")
+						canvas(id='ip_versions' class='card-graph') Your browser does not support the canvas element. 
+						div(class="loading-icon" id='loading-icon-ip_versions')        
 
 div(class='row no-gutters')
 	// Single vs Multiple HTTP requests
@@ -33,9 +35,10 @@ div(class='row no-gutters')
 					| Percentage of CAPTCHA faced exit nodes by
 					br
 					| HTTP requests quantity
-				div(class="chart-container" style="position: relative; height:100%; width:100%")
-					canvas(id='single_vs_multiple_http_reqs' class='card-graph') Your browser does not support the canvas element.
-					div(class="loading-icon" id='loading-icon-single_vs_multiple_http_reqs')
+				div(class='chart-container-dimension')
+					div(class="chart-container" style="position: relative; height:100%; width:100%")
+						canvas(id='single_vs_multiple_http_reqs' class='card-graph') Your browser does not support the canvas element.
+						div(class="loading-icon" id='loading-icon-single_vs_multiple_http_reqs')
 
 	// HTTP vs HTTPS
 	div(class='col-md')
@@ -45,9 +48,10 @@ div(class='row no-gutters')
 					| Percentage of CAPTCHA faced exit nodes by
 					br
 					| connection security
-				div(class="chart-container" style="position: relative; height:100%; width:100%")
-					canvas(id='http_vs_https' class='card-graph') Your browser does not support the canvas element.
-					div(class="loading-icon" id='loading-icon-http_vs_https')
+				div(class='chart-container-dimension')
+					div(class="chart-container" style="position: relative; height:100%; width:100%")
+						canvas(id='http_vs_https' class='card-graph') Your browser does not support the canvas element.
+						div(class="loading-icon" id='loading-icon-http_vs_https')
 
 //- div(class='row no-gutters')
 //- 	// Locations of the exit nodes

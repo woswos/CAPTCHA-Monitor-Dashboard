@@ -154,12 +154,24 @@ function createLinePlot(elementId, x_axis_labels, datasets) {
         // Configuration options go here
         options: {
             //responsive: true,
-            //maintainAspectRatio: false,
+            maintainAspectRatio: false,
             scales: {
                 xAxes: [{
                     ticks: {
                         autoSkip: false,
-                        minRotation: 20
+                        minRotation: 30,
+                        fontSize: 15,
+                        minor: {
+                            fontSize: 15
+                        }
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        fontSize: 15,
+                        minor: {
+                            fontSize: 15
+                        }
                     }
                 }]
             },
@@ -168,7 +180,8 @@ function createLinePlot(elementId, x_axis_labels, datasets) {
                 position: 'bottom',
                 labels: {
                     usePointStyle: true,
-                    boxWidth: 5
+                    boxWidth: 5,
+                    fontSize: 15
                 }
             },
             tooltips: {
