@@ -6,8 +6,13 @@ router.get('/:limit?', function(req, res, next) {
 
     let db = dbHandle.connect();
 
-    if(typeof req.params.limit == 'undefined') {
+    if (typeof req.params.limit == 'undefined') {
         req.params.limit = 50;
+    } else if (isNaN(req.params.limit)) {
+        res.status(400).json({
+            "error": 'Invalid offset'
+        });
+        return
     }
 
     let sql = 'SELECT id, timestamp, method, url, exit_node, is_captcha_found, tbb_security_level FROM results ORDER BY timestamp DESC LIMIT ' + req.params.limit;
