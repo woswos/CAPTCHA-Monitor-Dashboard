@@ -1,0 +1,68 @@
+extends layout
+
+block content
+	div(class='container')
+		h3(class='mb-4') 
+			| Details for measurement #
+			a(id='details_id')= id
+		// Search    
+		table(class='table' style='word-wrap:break-word; table-layout: fixed;')
+			tr
+				th(scope='row' style='width:15%')
+					h5 Timestamp
+				td
+					p(id='details_timestamp') 
+			tr 
+				th(scope='row' style='width:15%')
+					h5 Exit Node
+				td
+					p(id='details_exit_node') 
+			tr 
+				th(scope='row' style='width:15%')
+					h5 Method
+				td
+					p(id='details_method')
+			tr 
+				th(scope='row' style='width:15%')
+					h5 Tor Browser Security Level
+				td
+					p(id='details_tbb_security_level')
+			tr 
+				th(scope='row' style='width:15%')
+					h5 URL
+				td
+					p(id='details_url')    
+			tr 
+				th(scope='row' style='width:15%')
+					h5 CAPTCHA Sign
+				td
+					p(id='details_captcha_sign')
+			tr 
+				th(scope='row' style='width:15%')
+					h5 Is CAPTCHA found?
+				td
+					p(id='details_is_captcha_found')
+			tr 
+				th(scope='row' style='width:15%')
+					h5 Request Headers
+				td
+					pre(id='details_request_headers')
+
+			tr 
+				th(scope='row' style='width:15%')
+					h5 Response Headers
+				td
+					pre(id='details_response_headers')
+
+			tr 
+				th(scope='row' style='width:15%')
+					h5 HTML Data
+				td
+					pre(id='details_html_data')
+
+
+
+
+
+
+	script(src='/javascripts/details.js')

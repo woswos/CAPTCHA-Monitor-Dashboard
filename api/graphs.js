@@ -20,11 +20,10 @@ function dateFormat(date) {
     return date
 }
 
-/* GET users listing. */
 router.get('/tbb_security_levels', function(req, res, next) {
 
     let db = dbHandle.connect();
-    
+
     let sql = `
     SELECT timestamp, tbb_security_level, is_captcha_found, count(*) AS 'count'
     FROM results
@@ -97,7 +96,7 @@ router.get('/tbb_security_levels', function(req, res, next) {
 
         let result = {
             "message": "success",
-            "result": {
+            "results": {
                 "labels": labels,
                 "data": {
                     "Low (Standard)": data_low,
@@ -186,7 +185,7 @@ router.get('/http_vs_https', function(req, res, next) {
 
         let result = {
             "message": "success",
-            "result": {
+            "results": {
                 "labels": labels,
                 "data": {
                     "HTTP": data_http,
@@ -277,7 +276,7 @@ i <
 
         let result = {
             "message": "success",
-            "result": {
+            "results": {
                 "labels": labels,
                 "data": {
                     "Single request": data_single,
@@ -366,7 +365,7 @@ router.get('/ip_versions', function(req, res, next) {
 
         let result = {
             "message": "success",
-            "result": {
+            "results": {
                 "labels": labels,
                 "data": {
                     "IPv4": data_ipv4,

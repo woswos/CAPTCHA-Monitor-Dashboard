@@ -1,31 +1,36 @@
 // Information row    
 div(class='row no-gutters')
-    div(class='col-md')
-        div(class='card m-2')
-            div(class='card-body')
-                div(class='row no-gutters')
-                    div(class='col-md')
-                        p(class='mb-0') 
-                            | The Cloudflare CAPTCHA Monitoring project 
-                            | aims to track how often Cloudflare fronted 
-                            | websites return CAPTCHAs to Tor clients.
-                            | The project aims to achieve this by fetching
-                            | webpages via both Tor and other mainstream
-                            | web browsers and comparing the results.
-                            | The tests are repeated periodically to find
-                            | the patterns over time. 
-                            
-                
-                    div(class='col-md')
-                        p(class='mb-0') 
-                            | Collected metadata,
-                            | metrics, and results are analyzed and
-                            | displayed here to understand how Cloudflare
-                            | manipulates internet traffic and affects
-                            | people's access to the internet.
-                            | Please visit the 
-                            | 
-                            a(href='https://trac.torproject.org/projects/tor/wiki/doc/CAPTCHAMonitor') project website
-                            |
-                            | for more
-                            | detailed information.
+	div(class='col-md')
+		div(class='card m-2')
+			div(class='card-body')
+				div(class='row no-gutters')
+					div(class='col-md')
+						p(class='mb-0') 
+							| The Cloudflare CAPTCHA Monitoring project 
+							| aims to track how often Cloudflare fronted 
+							| websites return CAPTCHAs to Tor clients.
+							| The project aims to achieve this by fetching
+							| webpages via both Tor and other mainstream
+							| web browsers and comparing the results.
+							| The tests are repeated periodically to find
+							| the patterns over time. 
+							br
+							br
+							| Collected metadata,
+							| metrics, and results are analyzed and
+							| displayed here to understand how Cloudflare
+							| manipulates internet traffic and affects
+							| people's access to the internet.
+							| Please visit the 
+							| 
+							a(href='https://gitlab.torproject.org/woswos/CAPTCHA-Monitor/-/wikis/home') project website
+							|
+							| for more
+							| detailed information.
+							br
+							br
+							| You can also use the measurement search at
+							|
+							a(href='/measurements') /measurements
+							|
+							| to see individual measurements and more data.

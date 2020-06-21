@@ -1,5 +1,5 @@
 // The URL for the API endpoint
-let api_url = 'graphs'
+let api_url = '/api/graphs'
 
 // Colors to be used in the graphs
 // The order of the colors is important
@@ -69,13 +69,13 @@ const single_vs_multiple_http_reqs = (async () => {
 // Expands the data received from the API
 function createGraph(graph_name, api, plot_type) {
     // Get labels of the x axis
-    let x_axis_labels = api.result.labels;
+    let x_axis_labels = api.results.labels;
 
     let i = 0;
     // Get the nth color in the dictionary
     // console.log(Object.values(colors[i])[0])
     let internal_dataset = []
-    for (const [key, value] of Object.entries(api.result.data)) {
+    for (const [key, value] of Object.entries(api.results.data)) {
         internal_dataset.push(new dataset(key, Object.values(colors[i])[0], value))
         i++;
     }

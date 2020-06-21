@@ -27,6 +27,11 @@ canvas{
     left: calc(50% - 25px);
 }
 
+.loading_icon_summary_table {
+    top: calc( calc(50% - 25px) + 200px);
+    left: calc(50% - 25px);
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -35,4 +40,20 @@ canvas{
     100% {
         transform: rotate(360deg);
     }
+}
+
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    border-color: rgba(111,111,111,0.2) transparent transparent;
 }
