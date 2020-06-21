@@ -192,6 +192,25 @@ function createLinePlot(elementId, x_axis_labels, datasets) {
                         return tooltipItems.yLabel + ' %';
                     }
                 }
+            },
+            onClick: function(evt) {
+                // var element = chart.getElementAtEvent(evt);
+                // if (element.length > 0) {
+                //     var ind = element[0]._index;
+                //     if (confirm('Do you want to remove this point?')) {
+                //         data.datasets[0].data.splice(ind, 1);
+                //         data.labels.splice(ind, 1);
+                //         chart.update(data);
+                //     }
+                // }
+
+                // var firstPoint = chart.getElementAtEvent(evt)[0];
+                //
+                // if (firstPoint) {
+                //     var label = x_axis_labels[firstPoint._index];
+                //     var value = datasets[firstPoint._datasetIndex].data[firstPoint._index];
+                //     console.log(elementId, label, value);
+                // }
             }
         }
     });
