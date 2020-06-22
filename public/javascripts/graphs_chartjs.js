@@ -189,7 +189,7 @@ function createLinePlot(elementId, x_axis_labels, datasets) {
                 mode: 'single',
                 callbacks: {
                     label: function(tooltipItems, data) {
-                        return tooltipItems.yLabel + ' %';
+                        return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel + ' %';
                     }
                 }
             },
