@@ -9,56 +9,69 @@ block content
 		table(class='table' style='word-wrap:break-word; table-layout: fixed;')
 			tr
 				th(scope='row' style='width:15%')
-					h5 Timestamp
+					p Timestamp
 				td
 					p(id='details_timestamp') 
 			tr 
 				th(scope='row' style='width:15%')
-					h5 Exit Node
+					p Exit Node
 				td
 					p(id='details_exit_node') 
 			tr 
 				th(scope='row' style='width:15%')
-					h5 Method
+					p Method
 				td
 					p(id='details_method')
 			tr 
 				th(scope='row' style='width:15%')
-					h5 Tor Browser Security Level
+					p Browser Version
+				td
+					p(id='details_browser_version')
+			tr 
+				th(scope='row' style='width:15%')
+					p Tor Browser Security Level
 				td
 					p(id='details_tbb_security_level')
 			tr 
 				th(scope='row' style='width:15%')
-					h5 URL
+					p URL
 				td
 					p(id='details_url')    
 			tr 
 				th(scope='row' style='width:15%')
-					h5 CAPTCHA Sign
+					p CAPTCHA Sign
 				td
 					p(id='details_captcha_sign')
 			tr 
 				th(scope='row' style='width:15%')
-					h5 Is CAPTCHA found?
+					p Is CAPTCHA found?
 				td
 					p(id='details_is_captcha_found')
 			tr 
 				th(scope='row' style='width:15%')
-					h5 Request Headers
+					p Is Data Modified?
 				td
-					pre(id='details_request_headers')
-
+					p(id='details_is_data_modified')
 			tr 
 				th(scope='row' style='width:15%')
-					h5 Response Headers
+					p Requests
 				td
-					pre(id='details_response_headers')
-
+					p(id='details_requests')
+			//- tr 
+			//- 	th(scope='row' style='width:15%')
+			//- 		h5 Expected MD5 Hash of the HTML Data
+			//- 	td
+			//- 		pre(id='details_expected_hash')
 			tr 
 				th(scope='row' style='width:15%')
-					h5 HTML Data
+					p HTML Data
 				td
 					pre(id='details_html_data')
+		p 
+			i You can download the JSON version of the data at
+				|
+				|
+				a(id='details_download_link')
 
 
 	script(src='/javascripts/details.js')

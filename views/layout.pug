@@ -8,8 +8,10 @@ html(lang='en')
 		link(rel='stylesheet', href='/stylesheets/libraries/bootstrap.min.css')
 		link(rel='stylesheet', href='/stylesheets/libraries/jquery.dataTables.min.css')
 		link(rel='stylesheet', href='/stylesheets/libraries/dataTables.bootstrap4.min.css')
-		link(rel='stylesheet', href='/stylesheets/style.css')
 		script(src="/javascripts/libraries/Chart.bundle.min.js")
+		script(src="/javascripts/libraries/jsonview.bundle.js")
+		link(rel='stylesheet', href='/stylesheets/fonts.css')
+		link(rel='stylesheet', href='/stylesheets/style.css')
 
 	body
 		nav(class='navbar navbar-dark mb-4 navbar-expand-lg')
@@ -49,6 +51,20 @@ html(lang='en')
 
 									let text_mapping = {1: 'Yes', 0: 'No'};
 									json.results[i].is_captcha_found = text_mapping[json.results[i].is_captcha_found];
+									json.results[i].is_data_modified = text_mapping[json.results[i].is_data_modified];
+
+									let method_mapping = {'tor_browser': 'Tor Browser', 
+										'firefox': 'Firefox', 
+										'chrome': 'Chrome', 
+										'firefox_over_tor':'Firefox Over Tor', 
+										'chrome_over_tor':'Chrome Over Tor', 
+										'curl':'cURL'
+										};
+									json.results[i].method = method_mapping[json.results[i].method];
+
+									let security_level_mapping = {'low': 'Standard', 'medium': 'Safer', 'high': 'Safest'};
+									json.results[i].tbb_security_level = security_level_mapping[json.results[i].tbb_security_level];
+
 								}
 								return json.results;
 							}
@@ -58,9 +74,11 @@ html(lang='en')
 							{ 'data': 'timestamp' },
 							{ 'data': 'method' },
 							{ 'data': 'tbb_security_level' },
+							{ 'data': 'browser_version' },
 							{ 'data': 'url' },
 							{ 'data': 'exit_node' },
-							{ 'data': 'is_captcha_found' }
+							{ 'data': 'is_captcha_found' },
+							{ 'data': 'is_data_modified' }
 						],
 						'order': [[ 0, '#{results_order}' ]],
 						//'pageLength': 20

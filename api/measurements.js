@@ -15,7 +15,7 @@ router.get('/:limit?', function(req, res, next) {
         return
     }
 
-    let sql = 'SELECT id, timestamp, method, url, exit_node, is_captcha_found, tbb_security_level FROM results ORDER BY timestamp DESC LIMIT ' + req.params.limit;
+    let sql = 'SELECT id, timestamp, method, url, exit_node, is_captcha_found, is_data_modified, tbb_security_level, browser_version FROM results ORDER BY timestamp DESC LIMIT ' + req.params.limit;
 
     let params = []
     db.all(sql, params, (err, rows) => {
