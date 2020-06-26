@@ -1,3 +1,24 @@
+body {
+    font-family: 'Source Sans Pro';
+    font-size: 1.05rem;
+}
+
+table th {
+    font-weight: 600;
+}
+
+table.dataTable thead th, table.dataTable tfoot th {
+font-weight: 600;
+}
+
+a {
+    color: #7d4698;
+}
+
+a:hover {
+    color: #522e64;
+}
+
 .card-graph {}
 
 .card-title {
@@ -9,7 +30,7 @@
 }
 
 .navbar {
-    background-color: #8d56A8;
+    background-color: #7d4698;
 }
 
 .loading-icon {
@@ -40,19 +61,6 @@
     }
 }
 
-pre {
-    white-space: pre-wrap;
-    /* Since CSS 2.1 */
-    white-space: -moz-pre-wrap;
-    /* Mozilla, since 1999 */
-    white-space: -pre-wrap;
-    /* Opera 4-6 */
-    white-space: -o-pre-wrap;
-    /* Opera 7 */
-    word-wrap: break-word;
-    /* Internet Explorer 5.5+ */
-}
-
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     padding: 0px;
 }
@@ -74,4 +82,106 @@ canvas {
     /* Possible future browsers. */
     -ms-interpolation-mode: nearest-neighbor;
     /* IE (non standard naming) */
+}
+
+pre {
+    white-space: pre-wrap;
+    /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */
+    font-family: RobotoMono, monospace;
+    letter-spacing: 0.5px;
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.json-container {
+    font-family: RobotoMono, monospace;
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: transparent;
+    color: #68b030;
+    box-sizing: border-box;
+}
+
+.json-container .line {
+    margin: 0 0;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.json-container .caret-icon {
+    width: 18px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.json-container .empty-icon {
+    width: 18px;
+}
+
+.json-container .json-type {
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.json-container .json-key {
+    color: #7d4698;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.json-container .json-index {
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.json-container .json-value {
+    margin-left: 8px;
+}
+
+.json-container .json-number {
+    color: #f9ae58;
+}
+
+.json-container .json-boolean {
+    color: #ec5f66;
+}
+
+.json-container .json-string {
+    color: #000;
+}
+
+.json-container .json-size {
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.json-container .hide {
+    display: none;
+}
+
+.json-container .fas {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.json-container .fa-caret-down {
+    border-width: 6px 5px 0 5px;
+    border-color: #808080 transparent;
+}
+
+.json-container .fa-caret-right {
+    border-width: 5px 0 5px 6px;
+    border-color: transparent transparent transparent #808080;
 }

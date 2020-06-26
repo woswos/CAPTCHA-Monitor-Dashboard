@@ -1,0 +1,95 @@
+@font-face{
+    font-family: 'Source Sans Pro';
+    font-weight: 200;
+    font-style: normal;
+    font-stretch: normal;
+    src: url('/fonts/SourceSansPro-ExtraLight.otf.woff');
+}
+
+@font-face{
+    font-family: 'Source Sans Pro';
+    font-weight: 200;
+    font-style: italic;
+    font-stretch: normal;
+    src: url('/fonts/SourceSansPro-ExtraLightIt.otf.woff');
+}
+
+@font-face{
+    font-family: 'Source Sans Pro';
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    src: url('/fonts/SourceSansPro-Light.otf.woff');
+}
+
+@font-face{
+    font-family: 'Source Sans Pro';
+    font-weight: 300;
+    font-style: italic;
+    font-stretch: normal;
+    src: url('/fonts/SourceSansPro-LightIt.otf.woff');
+}
+
+@font-face{
+    font-family: 'Source Sans Pro';
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    src: url('/fonts/SourceSansPro-Regular.otf.woff');
+}
+
+@font-face{
+    font-family: 'Source Sans Pro';
+    font-weight: 400;
+    font-style: italic;
+    font-stretch: normal;
+    src: url('/fonts/SourceSansPro-It.otf.woff');
+}
+
+@font-face{
+    font-family: 'Source Sans Pro';
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    src: url('/fonts/SourceSansPro-Semibold.otf.woff');
+}
+
+@font-face{
+    font-family: 'Source Sans Pro';
+    font-weight: 600;
+    font-style: italic;
+    font-stretch: normal;
+    src: url('/fonts/SourceSansPro-SemiboldIt.otf.woff');
+}
+
+@font-face{
+    font-family: 'Source Sans Pro';
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+    src: url('/fonts/SourceSansPro-Bold.otf.woff');
+}
+
+@font-face{
+    font-family: 'Source Sans Pro';
+    font-weight: 700;
+    font-style: italic;
+    font-stretch: normal;
+    src: url('/fonts/SourceSansPro-BoldIt.otf.woff');
+}
+
+@font-face{
+    font-family: 'Source Sans Pro';
+    font-weight: 900;
+    font-style: normal;
+    font-stretch: normal;
+    src: url('/fonts/SourceSansPro-Black.otf.woff');
+}
+
+@font-face{
+    font-family: 'Source Sans Pro';
+    font-weight: 900;
+    font-style: italic;
+    font-stretch: normal;
+    src: url('/fonts/SourceSansPro-BlackIt.otf.woff');
+}
