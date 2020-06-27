@@ -89,4 +89,14 @@ function createText(api) {
     JsonView.render(tree, document.querySelector('#details_requests'));
     JsonView.expandChildren(tree);
 
+    test_1 = (api.results[0].is_data_modified == 1)
+    test_2 = (api.results[0].is_captcha_found == 1)
+    if(test_1 && test_2){
+        $('#first_row').css('border-top', '5px solid #dc3545')
+    } else if(test_1 || test_2){
+        $('#first_row').css('border-top', '5px solid #fd7e14')
+    } else {
+        $('#first_row').css('border-top', '5px solid #28a745')
+    }
+
 }

@@ -70,6 +70,7 @@ html(lang='en')
 							}
 						},
 						'columns': [
+							{ 'defaultContent': '', className: 'table_status_indicator', 'targets': [0], 'searchable': false, 'orderable': false, 'visible': true  },
 							{ 'data': 'id' },
 							{ 'data': 'timestamp' },
 							{ 'data': 'method' },
@@ -80,9 +81,20 @@ html(lang='en')
 							{ 'data': 'is_captcha_found' },
 							{ 'data': 'is_data_modified' }
 						],
-						'order': [[ 0, '#{results_order}' ]],
+						'order': [[ 1, '#{results_order}' ]],
 						//'pageLength': 20
-						"oSearch": { "sSearch": decodeURIComponent(window.location.hash.substring(1)) }
+						"oSearch": { "sSearch": decodeURIComponent(window.location.hash.substring(1)) },
+						rowCallback: function(row, data, index){
+							test_1 = (data.is_data_modified == 'Yes')
+							test_2 = (data.is_captcha_found == 'Yes')
+							if(test_1 && test_2){
+								$(row).find('td:eq(0)').css('background-color', '#dc3545');
+							} else if(test_1 || test_2){
+								$(row).find('td:eq(0)').css('background-color', '#fd7e14');
+							} else {
+								$(row).find('td:eq(0)').css('background-color', '#28a745');
+							}
+						}
 					} );
 
 					// Get what is entered into the search box and place it into the url
