@@ -7,8 +7,9 @@ table th {
     font-weight: 600;
 }
 
-table.dataTable thead th, table.dataTable tfoot th {
-font-weight: 600;
+table.dataTable thead th,
+table.dataTable tfoot th {
+    font-weight: 600;
 }
 
 a {
@@ -75,6 +76,24 @@ a:hover {
     width: 7px;
     padding: 0px !important;
     margin: 0px !important;
+}
+
+.page-item.active .page-link {
+    background-color: #7d4698;
+    border-color: #7d4698;
+}
+
+.page-link:hover {
+    color: #522e64;
+}
+
+.page-link {
+    color: #7d4698;
+    margin-left: 0px;
+}
+
+.page-link:focus {
+    box-shadow: none;
 }
 
 /* Used for showing the graphs more crisp on Tor Browser */
