@@ -168,6 +168,8 @@ function createLinePlot(elementId, x_axis_labels, datasets) {
                 }],
                 yAxes: [{
                     ticks: {
+                        min: 0,
+                        max: 100,
                         fontSize: 15,
                         minor: {
                             fontSize: 15

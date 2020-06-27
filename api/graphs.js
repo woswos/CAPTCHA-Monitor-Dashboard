@@ -10,14 +10,14 @@ function daysBetween(date1, date2) {
 }
 
 function dateFormat(date) {
-    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
-
-    var date = new Date(date)
-    date.setDate(date.getDate())
-    date = monthNames[date.getMonth()] + ',' + date.getDate() + ' ' + date.getFullYear()
-    return date
+    // var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    //     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    // ];
+    //
+    // var date = new Date(date)
+    // date.setDate(date.getDate())
+    // date = monthNames[date.getMonth()] + ',' + date.getDate() + ' ' + date.getFullYear()
+    return date.toISOString().split('T')[0]
 }
 
 router.get('/tbb_security_levels', function(req, res, next) {
@@ -243,9 +243,7 @@ router.get('/single_vs_multiple_http_reqs', function(req, res, next) {
 
 
                 // Find the ones that match the day and security level criteria
-                for (let i = 0;
-i <
-                    rows.length; i++) {
+                for (let i = 0; i < rows.length; i++) {
                     date = new Date(Date.parse(rows[i].timestamp));
                     if (daysBetween(date, today) == m) {
                         selected_date = date
