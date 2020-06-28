@@ -33,6 +33,11 @@ html(lang='en')
 		script(src='/javascripts/libraries/dataTables.bootstrap4.min.js')
 
 		// This needs to be placed at the very end of the page
+		// Unfortunately, I cannot put this in a seperate file because
+		//	pug modifies the some parts of the code based on the template
+		//	values and it wouldn't be possible when this code is in a seperate
+		//	file. If you can find the way to active the same functionality
+		//	while putting this code in a seperate file, please let me know.
 		if(place_table == true)
 			script(type="text/javascript").
 				$(document).ready(function() {
@@ -71,15 +76,15 @@ html(lang='en')
 						},
 						'columns': [
 							{ 'defaultContent': '', className: 'table_status_indicator', 'targets': [0], 'searchable': false, 'orderable': false, 'visible': true  },
-							{ 'data': 'id' },
-							{ 'data': 'timestamp' },
-							{ 'data': 'method' },
-							{ 'data': 'tbb_security_level' },
-							{ 'data': 'browser_version' },
-							{ 'data': 'url' },
-							{ 'data': 'exit_node' },
-							{ 'data': 'is_captcha_found' },
-							{ 'data': 'is_data_modified' }
+							{ 'defaultContent': 'N/A', 'data': 'id' },
+							{ 'defaultContent': 'N/A', 'data': 'timestamp' },
+							{ 'defaultContent': 'N/A', 'data': 'method' },
+							{ 'defaultContent': 'N/A', 'data': 'tbb_security_level' },
+							{ 'defaultContent': 'N/A', 'data': 'browser_version' },
+							{ 'defaultContent': 'N/A', 'data': 'url' },
+							{ 'defaultContent': 'N/A', 'data': 'exit_node' },
+							{ 'defaultContent': 'N/A', 'data': 'is_captcha_found' },
+							{ 'defaultContent': 'N/A', 'data': 'is_data_modified' }
 						],
 						'order': [[ 1, '#{results_order}' ]],
 						//'pageLength': 20
