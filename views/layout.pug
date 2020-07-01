@@ -32,13 +32,13 @@ html(lang='en')
 		script(src='/javascripts/libraries/jquery.dataTables.min.js')
 		script(src='/javascripts/libraries/dataTables.bootstrap4.min.js')
 
-		// This needs to be placed at the very end of the page
-		// Unfortunately, I cannot put this in a seperate file because
-		//	pug modifies the some parts of the code based on the template
-		//	values and it wouldn't be possible when this code is in a seperate
-		//	file. If you can find the way to active the same functionality
-		//	while putting this code in a seperate file, please let me know.
 		if(place_table == true)
+			// This needs to be placed at the very end of the page
+			// Unfortunately, I cannot put this in a seperate file because
+			//	pug modifies the some parts of the code based on the template
+			//	values and it wouldn't be possible when this code is in a seperate
+			//	file. If you can find the way to active the same functionality
+			//	while putting this code in a seperate file, please let me know.
 			script(type="text/javascript").
 				$(document).ready(function() {
 					$('#search_table').DataTable( {
