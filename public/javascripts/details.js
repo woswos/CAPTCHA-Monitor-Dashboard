@@ -16,6 +16,7 @@ function createText(api) {
     document.getElementById('details_captcha_sign').innerHTML = api.results[0].captcha_sign;
     document.getElementById('details_html_data').textContent = api.results[0].html_data;
     document.getElementById('details_browser_version').innerHTML = api.results[0].browser_version;
+    document.getElementById('details_captchamonitor_version').innerHTML = api.results[0].captchamonitor_version;
     //document.getElementById('details_expected_hash').innerHTML = api.results[0].expected_hash;
 
     let method_mapping = {
