@@ -20,6 +20,71 @@ function dateFormat(date) {
     return date.toISOString().split('T')[0]
 }
 
+function classify(rows, attribute, classes, max_days_prior = 5) {
+
+    let today = new Date();
+    let labels = [];
+    let data_bins = []
+
+    // Create the data bins for each class
+    for (let i = 0; i < classes.length; i++) {
+        data_bins[classes[i]] = []
+    }
+
+    // Iterate for classifying data for each wanted day
+    for (let m = max_days_prior; m > 0; m--) {
+        let selected_date = new Date();
+        selected_date.setDate(selected_date.getDate() - m);
+        //console.log('looking for m days back', m)
+
+        // Iterate for classifying data for each data bin
+        for (let s = 0; s < classes.length; s++) {
+            let total_count = 0;
+            let captcha_faced_count = 0;
+            let captcha_faced_percentage = 0;
+            let date;
+
+            // Find the ones that match the day and data bin
+            for (let i = 0; i < rows.length; i++) {
+                date = new Date(Date.parse(rows[i].timestamp));
+
+                // Compare the days between today and the given date
+                if (daysBetween(date, today) == m) {
+                    selected_date = date
+
+                    // Find the ones that match the data bin
+                    if (rows[i][attribute] == classes[s]) {
+
+                        //console.log('selected_date: ', selected_date, '->', rows[i][attribute], '-> count: ', rows[i].count, '-> CAPTCHA?: ', rows[i].is_captcha_found)
+
+                        total_count += rows[i].count;
+
+                        if (rows[i].is_captcha_found == '1') {
+                            captcha_faced_count += rows[i].count;
+                        }
+
+                    }
+
+                }
+            }
+
+            captcha_faced_percentage = ((captcha_faced_count / total_count) * 100).toFixed(2)
+
+            // Populate the data bins
+            data_bins[classes[s]].push(captcha_faced_percentage);
+
+        }
+
+        labels.push(dateFormat(selected_date));
+    }
+
+    return {
+        data_bins: data_bins,
+        labels: labels
+    };
+}
+
+
 router.get('/tbb_security_levels', function(req, res, next) {
 
     let db = dbHandle.connect();
@@ -42,66 +107,17 @@ router.get('/tbb_security_levels', function(req, res, next) {
             return;
         }
 
-        let today = new Date();
         let tbb_security_levels = ['low', 'medium', 'high'];
-        let max_days_prior = 5;
-        let labels = [];
-        let data_low = [];
-        let data_medium = [];
-        let data_high = [];
-
-        // Iterate for classifying data for each wanted day
-        for (let m = max_days_prior; m > 0; m--) {
-            let selected_date = new Date();
-            selected_date.setDate(selected_date.getDate() - m);
-
-            // Iterate for classifying data for tbb security levels
-            for (let s = 0; s < tbb_security_levels.length; s++) {
-                let total_count = 0;
-                let captcha_faced_count = 0;
-                let captcha_faced_percentage = 0;
-                let date;
-
-                // Find the ones that match the day and security level criteria
-                for (let i = 0; i < rows.length; i++) {
-                    date = new Date(Date.parse(rows[i].timestamp));
-                    if (daysBetween(date, today) == m) {
-                        selected_date = date
-                        if (rows[i].tbb_security_level == tbb_security_levels[s]) {
-                            total_count += rows[i].count;
-                            if (rows[i].is_captcha_found == '1') {
-                                captcha_faced_count += rows[i].count;
-                            }
-                        }
-                    }
-                }
-                captcha_faced_percentage = ((captcha_faced_count / total_count) * 100).toFixed(2)
-
-                switch (tbb_security_levels[s]) {
-                    case 'low':
-                        data_low.push(captcha_faced_percentage);
-                        break;
-                    case 'medium':
-                        data_medium.push(captcha_faced_percentage);
-                        break;
-                    case 'high':
-                        data_high.push(captcha_faced_percentage);
-                        break;
-                }
-
-            }
-
-            labels.push(dateFormat(selected_date));
-        }
+        let classified = classify(rows, 'tbb_security_level', tbb_security_levels)
 
         let result = {
             "message": "success",
             "results": {
-                "labels": labels,
+                "labels": classified.labels,
                 "data": {
-                    "Low (Standard)": data_low,
-                    "Medium (Safer)": data_medium,
-                    "High (Safest)": data_high
+                    "Low (Standard)": classified.data_bins.low,
+                    "Medium (Safer)": classified.data_bins.medium,
+                    "High (Safest)": classified.data_bins.high
                 }
             }
         }
@@ -118,8 +134,9 @@ router.get('/http_vs_https', function(req, res, next) {
     let db = dbHandle.connect();
 
     let sql = `
-    SELECT timestamp, url, is_captcha_found, count(*) AS 'count'
+    SELECT results.timestamp, results.url, results.is_captcha_found, urls.is_https, urls.supports_ipv4, urls.supports_ipv6, count(*) AS 'count'
     FROM results
+    INNER JOIN urls on results.url = urls.url
     GROUP BY is_captcha_found, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
     ORDER BY timestamp
     LIMIT 50
@@ -134,62 +151,26 @@ router.get('/http_vs_https', function(req, res, next) {
             return;
         }
 
-        let today = new Date();
-        let websites = ['https', 'http'];
-        let max_days_prior = 5;
-        let labels = [];
-        let data_http = [];
-        let data_https = [];
+        https_map = {
+            1: 'https',
+            0: 'http'
+        };
 
-        // Iterate for classifying data for each wanted day
-        for (let m = max_days_prior; m > 0; m--) {
-            let selected_date = new Date();
-            selected_date.setDate(selected_date.getDate() - m);
-
-            // Iterate for classifying data for tbb security levels
-            for (let w = 0; w < websites.length; w++) {
-                let total_count = 0;
-                let captcha_faced_count = 0;
-                let captcha_faced_percentage = 0;
-                let date;
-
-                // Find the ones that match the day and security level criteria
-                for (let i = 0; i < rows.length; i++) {
-                    date = new Date(Date.parse(rows[i].timestamp));
-                    if (daysBetween(date, today) == m) {
-                        selected_date = date;
-                        if (rows[i].url.substring(0, 5) == websites[w]) {
-                            total_count += rows[i].count;
-                            if (rows[i].is_captcha_found == '1') {
-                                captcha_faced_count += rows[i].count;
-                            }
-                        }
-                    }
-                }
-                captcha_faced_percentage = ((captcha_faced_count / total_count) * 100).toFixed(2)
-
-                switch (websites[w]) {
-                    case 'https':
-                        data_https.push(captcha_faced_percentage);
-                        break;
-                    case 'http':
-                        data_http.push(captcha_faced_percentage);
-                        break;
-                }
-
-            }
-
-            labels.push(dateFormat(selected_date));
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].http_status = https_map[rows[i].is_https]
         }
 
+        let websites = ['https', 'http'];
+        let classified = classify(rows, 'http_status', websites)
 
         let result = {
             "message": "success",
             "results": {
-                "labels": labels,
+                "labels": classified.labels,
                 "data": {
-                    "HTTP": data_http,
-                    "HTTPS": data_https,
+
+                    "HTTP": classified.data_bins.http,
+                    "HTTPS": classified.data_bins.https,
                 }
             }
         }
@@ -222,63 +203,32 @@ router.get('/single_vs_multiple_http_reqs', function(req, res, next) {
             return;
         }
 
-        let today = new Date();
-        let websites = ['complex', ''];
-        let max_days_prior = 5;
-        let labels = [];
-        let data_single = [];
-        let data_multiple = [];
+        let single_list = [
+            'http://captcha.wtf',
+            'https://captcha.wtf',
+            'http://exit11.online',
+            'https://exit11.online'
+        ]
 
-        // Iterate for classifying data for each wanted day
-        for (let m = max_days_prior; m > 0; m--) {
-            let selected_date = new Date();
-            selected_date.setDate(selected_date.getDate() - m);
-
-            // Iterate for classifying data for tbb security levels
-            for (let w = 0; w < websites.length; w++) {
-                let total_count = 0;
-                let captcha_faced_count = 0;
-                let captcha_faced_percentage = 0;
-                let date;
-
-
-                // Find the ones that match the day and security level criteria
-                for (let i = 0; i < rows.length; i++) {
-                    date = new Date(Date.parse(rows[i].timestamp));
-                    if (daysBetween(date, today) == m) {
-                        selected_date = date
-                        if (rows[i].url.indexOf(websites[w]) !== -1) {
-                            total_count += rows[i].count;
-                            if (rows[i].is_captcha_found == '1') {
-                                captcha_faced_count += rows[i].count;
-                            }
-                        }
-                    }
-                }
-                captcha_faced_percentage = ((captcha_faced_count / total_count) * 100).toFixed(2)
-
-                switch (websites[w]) {
-                    case '':
-                        data_single.push(captcha_faced_percentage);
-                        break;
-                    case 'complex':
-                        data_multiple.push(captcha_faced_percentage);
-                        break;
-                }
-
+        for (let i = 0; i < rows.length; i++) {
+            if (single_list.indexOf(rows[i].url) >= 0) {
+                rows[i].http_req_status = 'single'
+            } else {
+                rows[i].http_req_status = 'multiple'
             }
 
-            labels.push(dateFormat(selected_date));
         }
 
+        let websites = ['single', 'multiple'];
+        let classified = classify(rows, 'http_req_status', websites)
 
         let result = {
             "message": "success",
             "results": {
-                "labels": labels,
+                "labels": classified.labels,
                 "data": {
-                    "Single request": data_single,
-                    "Multiple requests": data_multiple,
+                    "Single request": classified.data_bins.single,
+                    "Multiple requests": classified.data_bins.multiple,
                 }
             }
         }
@@ -296,9 +246,10 @@ router.get('/ip_versions', function(req, res, next) {
     let db = dbHandle.connect();
 
     let sql = `
-    SELECT timestamp, url, is_captcha_found, count(*) AS 'count'
+    SELECT results.timestamp, results.url, results.is_captcha_found, urls.is_https, urls.supports_ipv4, urls.supports_ipv6, count(*) AS 'count'
     FROM results
-    GROUP BY is_captcha_found, (strftime('%s', timestamp) / (6 * 60 * 60 * 4)), instr(url, 'captcha.wtf')
+    INNER JOIN urls on results.url = urls.url
+    GROUP BY is_captcha_found, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
     ORDER BY timestamp
     LIMIT 50
     `;
@@ -306,68 +257,32 @@ router.get('/ip_versions', function(req, res, next) {
     let params = []
     db.all(sql, params, (err, rows) => {
         if (err) {
-            res.status(400).json({
+            res.st
+            atus(400).json({
                 "error": err.message
             });
             return;
         }
 
-        let today = new Date();
-        let websites = ['exit11.online', 'captcha.wtf'];
-        let max_days_prior = 5;
-        let labels = [];
-        let data_ipv4 = [];
-        let data_ipv6 = [];
-
-        // Iterate for classifying data for each wanted day
-        for (let m = max_days_prior; m > 0; m--) {
-            let selected_date = new Date();
-            selected_date.setDate(selected_date.getDate() - m);
-
-            // Iterate for classifying data for tbb security levels
-            for (let w = 0; w < websites.length; w++) {
-                let total_count = 0;
-                let captcha_faced_count = 0;
-                let captcha_faced_percentage = 0;
-                let date;
-
-                // Find the ones that match the day and security level criteria
-                for (let i = 0; i < rows.length; i++) {
-                    date = new Date(Date.parse(rows[i].timestamp));
-                    if (daysBetween(date, today) == m) {
-                        selected_date = date
-                        if (rows[i].url.indexOf(websites[w]) !== -1) {
-                            total_count += rows[i].count;
-                            if (rows[i].is_captcha_found == '1') {
-                                captcha_faced_count += rows[i].count;
-                            }
-                        }
-                    }
-                }
-                captcha_faced_percentage = ((captcha_faced_count / total_count) * 100).toFixed(2)
-
-                switch (websites[w]) {
-                    case 'exit11.online':
-                        data_ipv6.push(captcha_faced_percentage);
-                        break;
-                    case 'captcha.wtf':
-                        data_ipv4.push(captcha_faced_percentage);
-                        break;
-                }
-
+        for (let i = 0; i < rows.length; i++) {
+            if (rows[i].supports_ipv6 == '1') {
+                rows[i].ip_version = 'ipv6'
+            } else {
+                rows[i].ip_version = 'ipv4'
             }
 
-            labels.push(dateFormat(selected_date));
         }
 
+        let ip_versions = ['ipv4', 'ipv6'];
+        let classified = classify(rows, 'ip_version', ip_versions)
 
         let result = {
             "message": "success",
             "results": {
-                "labels": labels,
+                "labels": classified.labels,
                 "data": {
-                    "IPv4": data_ipv4,
-                    "IPv6": data_ipv6,
+                    "IPv4": classified.data_bins.ipv4,
+                    "IPv6": classified.data_bins.ipv6,
                 }
             }
         }
@@ -379,4 +294,5 @@ router.get('/ip_versions', function(req, res, next) {
 
 });
 
-module.exports = router;
+module.exports
+= router;
