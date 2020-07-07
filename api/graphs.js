@@ -84,19 +84,30 @@ function classify(rows, attribute, classes, max_days_prior = 5) {
     };
 }
 
+let sql_get_groupped_urls = `
+SELECT results.timestamp, results.url, results.is_captcha_found, urls.is_https, urls.supports_ipv4, urls.supports_ipv6, count(*) AS 'count'
+FROM results
+INNER JOIN urls on results.url = urls.url
+GROUP BY results.is_captcha_found, results.url, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
+ORDER BY timestamp DESC
+LIMIT 500
+`;
+
+
+let sql_get_tbb_security_levels = `
+SELECT timestamp, tbb_security_level, is_captcha_found, count(*) AS 'count'
+FROM results
+-- Group by columns and put into 1 day bins
+GROUP BY tbb_security_level, is_captcha_found, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
+ORDER BY timestamp DESC
+LIMIT 500
+`;
 
 router.get('/tbb_security_levels', function(req, res, next) {
 
     let db = dbHandle.connect();
 
-    let sql = `
-    SELECT timestamp, tbb_security_level, is_captcha_found, count(*) AS 'count'
-    FROM results
-    -- Group by columns and put into 1 day bins
-    GROUP BY tbb_security_level, is_captcha_found, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
-    ORDER BY timestamp
-    LIMIT 50
-    `;
+    let sql = sql_get_tbb_security_levels;
 
     let params = []
     db.all(sql, params, (err, rows) => {
@@ -133,14 +144,7 @@ router.get('/http_vs_https', function(req, res, next) {
 
     let db = dbHandle.connect();
 
-    let sql = `
-    SELECT results.timestamp, results.url, results.is_captcha_found, urls.is_https, urls.supports_ipv4, urls.supports_ipv6, count(*) AS 'count'
-    FROM results
-    INNER JOIN urls on results.url = urls.url
-    GROUP BY is_captcha_found, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
-    ORDER BY timestamp
-    LIMIT 50
-    `;
+    let sql = sql_get_groupped_urls;
 
     let params = []
     db.all(sql, params, (err, rows) => {
@@ -186,13 +190,7 @@ router.get('/single_vs_multiple_http_reqs', function(req, res, next) {
 
     let db = dbHandle.connect();
 
-    let sql = `
-    SELECT timestamp, url, is_captcha_found, count(*) AS 'count'
-    FROM results
-    GROUP BY is_captcha_found, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
-    ORDER BY timestamp
-    LIMIT 50
-    `;
+    let sql = sql_get_groupped_urls;
 
     let params = []
     db.all(sql, params, (err, rows) => {
@@ -245,14 +243,7 @@ router.get('/ip_versions', function(req, res, next) {
 
     let db = dbHandle.connect();
 
-    let sql = `
-    SELECT results.timestamp, results.url, results.is_captcha_found, urls.is_https, urls.supports_ipv4, urls.supports_ipv6, count(*) AS 'count'
-    FROM results
-    INNER JOIN urls on results.url = urls.url
-    GROUP BY is_captcha_found, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
-    ORDER BY timestamp
-    LIMIT 50
-    `;
+    let sql = sql_get_groupped_urls;
 
     let params = []
     db.all(sql, params, (err, rows) => {
@@ -294,5 +285,4 @@ router.get('/ip_versions', function(req, res, next) {
 
 });
 
-module.exports
-= router;
+module.exports = router;
