@@ -257,10 +257,14 @@ function createLinePlot(elementId, x_axis_labels, datasets) {
                 yAxes: [{
                     ticks: {
                         min: 0,
-                        max: 100,
                         fontSize: 15,
                         minor: {
                             fontSize: 15
+                        },
+                        beginAtZero : true,
+                        callback : function(value, index, values){
+                            yAxesticks = values;
+                            return value;
                         }
                     }
                 }]
@@ -308,6 +312,12 @@ function createLinePlot(elementId, x_axis_labels, datasets) {
             }
         }
     });
+
+    // If the max y value exceeds 100, limit it to 100
+    if(yAxesticks[0] > 100){
+        chart.options.scales.yAxes[0].ticks.max = 100
+        chart.update()
+    }
 
     return chart;
 }
