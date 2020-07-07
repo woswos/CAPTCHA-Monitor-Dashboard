@@ -1,6 +1,6 @@
 // Graphs    
 div(class='row no-gutters')
-	// Tor Browser Bundle Security Levels Graph
+	// Tor Browser Bundle Security Levels by is_captcha_found
 	div(class='col-md')
 		div(class='card m-2')
 			div(class='card-body')
@@ -10,10 +10,37 @@ div(class='row no-gutters')
 					| Tor Browser security level
 				div(class='chart-container-dimension')
 					div(class="chart-container" style="position: relative; height:100%; width:100%")
-						canvas(id="tbb_security_levels" class='card-graph') Your browser does not support the canvas element.
-						div(class="loading-icon" id='loading-icon-tbb_security_levels')
+						canvas(id="tbb_security_levels_by_is_captcha_found" class='card-graph') Your browser does not support the canvas element.
+						div(class="loading-icon" id='loading-icon-tbb_security_levels_by_is_captcha_found')
 
-	// IPv4 vs IPv6
+	// Tor Browser Versions by is_captcha_found
+	div(class='col-md')
+		div(class='card m-2')
+			div(class='card-body')
+				h5(class='card-title text-center') 
+					| Percentage of exit nodes received CAPTCHA by
+					br
+					| Tor Browser version
+				div(class='chart-container-dimension')
+					div(class="chart-container" style="position: relative; height:100%; width:100%")
+						canvas(id="tbb_versions_by_is_captcha_found" class='card-graph') Your browser does not support the canvas element.
+						div(class="loading-icon" id='loading-icon-tbb_versions_by_is_captcha_found')
+
+div(class='row no-gutters')
+	// Web browser types by is_captcha_found
+	div(class='col-md')
+		div(class='card m-2')
+			div(class='card-body')
+				h5(class='card-title text-center') 
+					| Percentage of exit nodes received CAPTCHA by
+					br
+					| web browser type
+				div(class='chart-container-dimension')
+					div(class="chart-container" style="position: relative; height:100%; width:100%")
+						canvas(id="web_browser_type_by_is_captcha_found" class='card-graph') Your browser does not support the canvas element.
+						div(class="loading-icon" id='loading-icon-web_browser_type_by_is_captcha_found')
+
+	// IPv4 vs IPv6 by is_captcha_found
 	div(class='col-md')
 		div(class='card m-2')
 			div(class='card-body')
@@ -23,11 +50,11 @@ div(class='row no-gutters')
 					| IP version
 				div(class='chart-container-dimension')
 					div(class="chart-container" style="position: relative; height:100%; width:100%")
-						canvas(id='ip_versions' class='card-graph') Your browser does not support the canvas element. 
-						div(class="loading-icon" id='loading-icon-ip_versions')        
+						canvas(id='ip_versions_by_is_captcha_found' class='card-graph') Your browser does not support the canvas element. 
+						div(class="loading-icon" id='loading-icon-ip_versions_by_is_captcha_found')        
 
 div(class='row no-gutters')
-	// Single vs Multiple HTTP requests
+	// Single vs Multiple HTTP requests by is_captcha_found
 	div(class='col-md')
 		div(class='card m-2')
 			div(class='card-body')
@@ -37,10 +64,10 @@ div(class='row no-gutters')
 					| HTTP requests quantity
 				div(class='chart-container-dimension')
 					div(class="chart-container" style="position: relative; height:100%; width:100%")
-						canvas(id='single_vs_multiple_http_reqs' class='card-graph') Your browser does not support the canvas element.
-						div(class="loading-icon" id='loading-icon-single_vs_multiple_http_reqs')
+						canvas(id='single_vs_multiple_http_reqs_by_is_captcha_found' class='card-graph') Your browser does not support the canvas element.
+						div(class="loading-icon" id='loading-icon-single_vs_multiple_http_reqs_by_is_captcha_found')
 
-	// HTTP vs HTTPS
+	// HTTP vs HTTPS by is_captcha_found
 	div(class='col-md')
 		div(class='card m-2')
 			div(class='card-body')
@@ -50,21 +77,34 @@ div(class='row no-gutters')
 					| connection security
 				div(class='chart-container-dimension')
 					div(class="chart-container" style="position: relative; height:100%; width:100%")
-						canvas(id='http_vs_https' class='card-graph') Your browser does not support the canvas element.
-						div(class="loading-icon" id='loading-icon-http_vs_https')
+						canvas(id='http_vs_https_by_is_captcha_found' class='card-graph') Your browser does not support the canvas element.
+						div(class="loading-icon" id='loading-icon-http_vs_https_by_is_captcha_found')
 
-//- div(class='row no-gutters')
-//- 	// Locations of the exit nodes
-//- 	div(class='col-md')
-//- 		div(class='card m-2')
-//- 			div(class='card-body')
-//- 				h5(class='card-title text-center') 
-//- 					| Overall percentage of CAPTCHA faced exit nodes by
-//- 					br
-//- 					| physical location
-//- 				div(class="chart-container" style="position: relative; height:100%; width:100%")
-//- 					canvas(id='physical_location' class='card-graph') Your browser does not support the canvas element.
-//- 					div(class="loading-icon" id='loading-icon-physical_location')
+div(class='row no-gutters')
+	// Exit node country distribution by is_captcha_found
+	div(class='col-md')
+		div(class='card m-2')
+			div(class='card-body')
+				h5(class='card-title text-center') 
+					| Distribution of exit nodes that received CAPTCHA by
+					br
+					| country
+				div(class='chart-container-dimension')
+					div(class="chart-container" style="position: relative; height:100%; width:100%")
+						canvas(id="country_by_is_captcha_found" class='card-graph') Your browser does not support the canvas element.
+						div(class="loading-icon" id='loading-icon-country_by_is_captcha_found')
 
+	// Exit node continent distribution by is_captcha_found
+	div(class='col-md')
+		div(class='card m-2')
+			div(class='card-body')
+				h5(class='card-title text-center') 
+					| Distribution of exit nodes that received CAPTCHA by
+					br
+					| continent
+				div(class='chart-container-dimension')
+					div(class="chart-container" style="position: relative; height:100%; width:100%")
+						canvas(id="continent_by_is_captcha_found" class='card-graph') Your browser does not support the canvas element.
+						div(class="loading-icon" id='loading-icon-continent_by_is_captcha_found')
 
 script(src='/javascripts/graphs_chartjs.js')
