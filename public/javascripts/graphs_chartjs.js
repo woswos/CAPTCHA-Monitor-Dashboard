@@ -90,7 +90,7 @@ const country = (async () => {
     // Get data
     let response = await fetch(api_url + '/is_captcha_found/country');
     let api = await response.json();
-    createGraph('country_by_is_captcha_found', api, 'pie')
+    createGraph('country_by_is_captcha_found', api, 'pie', 'right')
 })();
 
 const continent = (async () => {
@@ -101,7 +101,7 @@ const continent = (async () => {
 })();
 
 // Expands the data received from the API
-function createGraph(graph_name, api, plot_type) {
+function createGraph(graph_name, api, plot_type, legend_position = 'bottom') {
     // Get labels of the x axis
     let x_axis_labels = api.results.labels;
 
@@ -136,13 +136,13 @@ function createGraph(graph_name, api, plot_type) {
     // Graph name needs to be the same as the html id
     switch (plot_type) {
         case 'line':
-            createLinePlot(graph_name, x_axis_labels, internal_dataset);
+            createLinePlot(graph_name, x_axis_labels, internal_dataset, legend_position);
             break;
         case 'pie':
-            createPiePlot(graph_name, x_axis_labels, internal_dataset);
+            createPiePlot(graph_name, x_axis_labels, internal_dataset, legend_position);
             break;
         default:
-            createLinePlot(graph_name, x_axis_labels, internal_dataset);
+            createLinePlot(graph_name, x_axis_labels, internal_dataset, legend_position);
     }
 
     // Remove the loading icon
@@ -151,7 +151,7 @@ function createGraph(graph_name, api, plot_type) {
 }
 
 // Finally places all variables into the chartjs code
-function createPiePlot(elementId, x_axis_labels, datasets) {
+function createPiePlot(elementId, x_axis_labels, datasets, legend_position) {
     let ctx = document.getElementById(elementId).getContext('2d');
     let chart = new Chart(ctx, {
         // The type of chart we want to create
@@ -171,7 +171,7 @@ function createPiePlot(elementId, x_axis_labels, datasets) {
             },
             legend: {
                 display: true,
-                position: 'bottom',
+                position: legend_position,
                 labels: {
                     usePointStyle: true,
                     boxWidth: 5
@@ -182,9 +182,6 @@ function createPiePlot(elementId, x_axis_labels, datasets) {
                 mode: 'single',
                 callbacks: {
                     label: function(tooltipItems, data) {
-                        console.log(data.datasets)
-                        console.log(tooltipItems)
-                        console.log(x_axis_labels)
                         return x_axis_labels[tooltipItems.index] + ': ' + data.datasets[0].data[tooltipItems.index] + ' %';
                     }
                 }
@@ -227,7 +224,7 @@ function createPiePlot(elementId, x_axis_labels, datasets) {
 }
 
 // Finally places all variables into the chartjs code
-function createLinePlot(elementId, x_axis_labels, datasets) {
+function createLinePlot(elementId, x_axis_labels, datasets, legend_position) {
     let ctx = document.getElementById(elementId).getContext('2d');
     let chart = new Chart(ctx, {
         // The type of chart we want to create
@@ -271,7 +268,7 @@ function createLinePlot(elementId, x_axis_labels, datasets) {
             },
             legend: {
                 display: true,
-                position: 'bottom',
+                position: legend_position,
                 labels: {
                     usePointStyle: true,
                     boxWidth: 5,
