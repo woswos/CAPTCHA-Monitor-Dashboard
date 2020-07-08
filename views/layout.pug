@@ -23,7 +23,13 @@ html(lang='en')
 				a(class='nav-item nav-link active' href='/measurements') Measurement Search
 
 		// Main page content
-		block content
+		div(class='container')
+			include includes/js_warning.pug
+			script(type="text/javascript").
+				// This part will fail and show the error if JavaScript
+				//	is disabled on the browser
+				document.getElementById("js_warning").hidden = 'hidden';
+			block content
 
 		// Used for spacing at the bottom
 		div(class='mb-4')
