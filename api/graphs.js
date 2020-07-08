@@ -129,9 +129,9 @@ router.get('/is_captcha_found/country', function(req, res, next) {
             }
         }
 
-        for (let key in data) {
-            data[key] = ((data[key] / total) * 100).toFixed(2);
-        }
+        // for (let key in data) {
+        //     data[key] = ((data[key] / total) * 100).toFixed(2);
+        // }
 
 
         let converted_labels = [];
@@ -188,9 +188,9 @@ router.get('/is_captcha_found/continent', function(req, res, next) {
             }
         }
 
-        for (let key in data) {
-            data[key] = ((data[key] / total) * 100).toFixed(2);
-        }
+        // for (let key in data) {
+        //     data[key] = ((data[key] / total) * 100).toFixed(2);
+        // }
 
         let labels_updated = [];
         for (let key in classified.labels) {
@@ -536,9 +536,36 @@ function classify_for_pie_chart(rows, attribute) {
         key_id = key_id + 1
     }
 
+    sorted = double_bubble_sort(res, labels)
+
     return {
-        data_bins: res,
-        labels: labels
+        data_bins: sorted.array_1,
+        labels: sorted.array_2
+    }
+}
+
+function double_bubble_sort(arr1, arr2){
+    // arr1 is used for sorting but values in
+    //      are also moved as values in arr1
+    //      are moved
+    var len = arr1.length;
+    for (var i = len-1; i>=0; i--){
+        for(var j = 1; j<=i; j++){
+            if(arr1[j-1] < arr1[j]){
+                var temp1 = arr1[j-1];
+                var temp2 = arr2[j-1];
+
+                arr1[j-1] = arr1[j];
+                arr2[j-1] = arr2[j];
+
+                arr1[j] = temp1;
+                arr2[j] = temp2;
+            }
+        }
+    }
+    return {
+        array_1: arr1,
+        array_2: arr2
     }
 }
 
