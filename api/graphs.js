@@ -123,8 +123,10 @@ router.get('/is_captcha_found/country', function(req, res, next) {
         let data = {};
         let total = 0;
         for (let key in classified.data_bins) {
-            data[key] = classified.data_bins[key];
-            total += classified.data_bins[key]
+            if(classified.data_bins[key] != 0){
+                data[key] = classified.data_bins[key];
+                total += classified.data_bins[key]
+            }
         }
 
         for (let key in data) {
@@ -134,7 +136,9 @@ router.get('/is_captcha_found/country', function(req, res, next) {
 
         let converted_labels = [];
         for (let i = 0; i < classified.labels.length; i++) {
-            converted_labels.push(isoCountries[classified.labels[i]])
+            if(classified.labels[i] != 'null'){
+                converted_labels.push(isoCountries[classified.labels[i]])
+            }
         }
 
         let result = {
@@ -178,18 +182,27 @@ router.get('/is_captcha_found/continent', function(req, res, next) {
         let data = {};
         let total = 0;
         for (let key in classified.data_bins) {
-            data[key] = classified.data_bins[key];
-            total += classified.data_bins[key]
+            if(classified.data_bins[key] != 0){
+                data[key] = classified.data_bins[key];
+                total += classified.data_bins[key]
+            }
         }
 
         for (let key in data) {
             data[key] = ((data[key] / total) * 100).toFixed(2);
         }
 
+        let labels_updated = [];
+        for (let key in classified.labels) {
+            if(classified.labels[key] != 'null'){
+                labels_updated.push(classified.labels[key])
+            }
+        }
+
         let result = {
             "message": "success",
             "results": {
-                "labels": classified.labels,
+                "labels": labels_updated,
                 "data": data
             }
         }
