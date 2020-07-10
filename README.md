@@ -1,6 +1,8 @@
 # CAPTCHA Monitor's Dashboard Component
 This dashboard is used to visualize the data collected with the CAPTCHA Monitor.
-The live version of the dashboard is avaliable at [dashboard.captcha.wtf](https://dashboard.captcha.wtf/).
+The live version of the dashboard is avaliable at [dashboard.captcha.wtf](https://dashboard.captcha.wtf) 
+or 
+[5yalu72ryu4xu457kmcze5kxb4on6xh2vkom35jnu4s3respg7hsguqd.onion](http://5yalu72ryu4xu457kmcze5kxb4on6xh2vkom35jnu4s3respg7hsguqd.onion)
 
 See https://gitlab.torproject.org/woswos/CAPTCHA-Monitor/-/wikis/home for the
 main project and further details.
