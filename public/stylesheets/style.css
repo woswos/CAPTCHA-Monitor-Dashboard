@@ -73,7 +73,7 @@ a:hover {
 }
 
 .table_status_indicator {
-    width: 7px;
+    /*width: 7px;*/
     padding: 0px !important;
     margin: 0px !important;
 }
