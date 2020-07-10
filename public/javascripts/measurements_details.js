@@ -67,24 +67,6 @@ function createText(api) {
         '/api/measurements/details/' + api.results[0].id +
         '</a>';
 
-    // let requests_json = JSON.parse(api.results[0].requests);
-    // let requests_string = JSON.stringify(requests_json, undefined, 2)
-    // document.getElementById('details_requests').textContent = requests_string;
-
-    // // Iterate over the requests
-    // let requests_json = JSON.parse(api.results[0].requests);
-    // let test = '<table>'
-    // for(let i = 0; i < requests_json.data.length; i++) {
-    //     if(i == 0){
-    //         test += '<tr><td style="border-top: none;"><pre>'
-    //     } else {
-    //         test += '<tr><td><pre>'
-    //     }
-    //     test += JSON.stringify(requests_json.data[i], undefined, 2) + '</pre></td></tr>'
-    // }
-    // test += '</table>'
-    // document.getElementById('details_requests').innerHTML = test
-
     let requests_json = JSON.parse(api.results[0].requests);
     const tree = JsonView.createTree(requests_json);
     JsonView.render(tree, document.querySelector('#details_requests'));
