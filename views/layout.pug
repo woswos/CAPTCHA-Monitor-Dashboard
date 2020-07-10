@@ -22,6 +22,7 @@ html(lang='en')
 			div(class='navbar-nav')
 				a(class='nav-item nav-link active' href='/') Home
 				a(class='nav-item nav-link active' href='/measurements') Measurement Search
+				a(class='nav-item nav-link active' href='/relays') Relay Search
 
 		// Main page content
 		div(class='container')
@@ -43,3 +44,6 @@ html(lang='en')
 
 		if(place_measurement_datatable == true)
 			include includes/measurements_datatable.pug
+
+		if(place_relays_datatable == true)
+			include includes/relays_datatable.pug

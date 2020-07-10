@@ -1,0 +1,23 @@
+div(class='row no-gutters')
+	div(class='col-md')
+		table(id='search_table' class='table table-striped table-bordered')
+			thead
+				tr
+					th(scope='col' class='table_status_indicator') 
+					th(scope='col') Nickname
+					th(scope='col') Address
+					th(scope='col') IPv4 Exit
+					th(scope='col') IPv6 Exit
+					th(scope='col') Country
+					th(scope='col') Status
+					th(scope='col') CAPTCHA Rate
+			tbody
+
+// Center the table cells only here
+style.
+	.table td, th {
+		text-align: center;
+	}
+	.table {
+		width: 100%;
+	}

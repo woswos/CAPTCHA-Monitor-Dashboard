@@ -1,0 +1,58 @@
+extends layout
+
+block content
+	div(class='container')
+		h3(class='mb-4') 
+			| Details for
+			|
+			a(id='details_nickname')
+		// Search    
+		table(class='table' id='details_table' tyle='word-wrap:break-word; table-layout: fixed;')
+			tr(id='first_row')
+				th(scope='row' style='width:15%')
+					p Fingerprint
+				td
+					p(id='details_fingerprint')= fingerprint
+			tr 
+				th(scope='row' style='width:15%')
+					p Address
+				td
+					p(id='details_address') 
+			tr 
+				th(scope='row' style='width:15%')
+					p Is IPv4 exiting allowed?
+				td
+					p(id='details_is_ipv4_exiting_allowed')
+			tr 
+				th(scope='row' style='width:15%')
+					p Is IPv6 exiting allowed?
+				td
+					p(id='details_is_ipv6_exiting_allowed')
+			tr 
+				th(scope='row' style='width:15%')
+					p Country
+				td
+					p(id='details_country')
+			tr 
+				th(scope='row' style='width:15%')
+					p Status
+				td
+					p(id='details_status')
+			tr 
+				th(scope='row' style='width:15%')
+					p Details Last Updated On
+				td
+					p(id='details_last_updated')
+			tr 
+				th(scope='row' style='width:15%')
+					p Performed Tests
+				td
+					p(id='details_performed_tests')
+		p 
+			i You can download the JSON version of the data at
+				|
+				|
+				a(id='details_download_link')
+
+
+	script(src='/javascripts/relays_details.js')

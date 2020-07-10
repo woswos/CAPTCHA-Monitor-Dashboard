@@ -6,9 +6,11 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var measurementsRouter = require('./routes/measurements');
+var relaysRouter = require('./routes/relays');
 
 var graphsAPI = require('./api/graphs');
 var measurementsAPI = require('./api/measurements');
+var relaysAPI = require('./api/relays');
 
 var app = express();
 
@@ -27,9 +29,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/measurements', measurementsRouter);
+app.use('/relays', relaysRouter);
 
 app.use('/api/measurements', measurementsAPI);
 app.use('/api/graphs', graphsAPI);
+app.use('/api/relays', relaysAPI);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

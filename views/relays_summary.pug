@@ -1,0 +1,19 @@
+extends layout
+
+block variables
+	- var place_relays_datatable = true
+	- var results_order = 'asc'
+	- var results_limit = 9999999999
+
+block content
+	div(class='container')
+		h3(class='mb-4') Relay Search
+		// Search    
+		//- div(class='row no-gutters')
+		//- 	div(class='col-md')
+		//- 		div(class='card mb-4')
+		//- 			div(class='card-body')
+		//- 				p(class='mb-0') 
+		//- 					| Text
+
+		include includes/relays_table.pug
