@@ -1,7 +1,7 @@
 extends layout
 
 block variables
-	- var place_table = true
+	- var place_measurement_datatable = true
 	- var results_limit = -1
 	- var results_order = 'asc'
 
@@ -47,4 +47,4 @@ block content
 							| is the IPv6 only domain used in the measurements. You might
 							| also use them for the search criteria.
 
-		include includes/table.pug
+		include includes/measurements_table.pug

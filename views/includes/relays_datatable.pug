@@ -1,0 +1,52 @@
+script(type="text/javascript").
+	$(document).ready(function() {
+		$('#search_table').DataTable( {
+			'ajax': {
+				url: '/api/relays/#{results_limit}',
+				dataSrc: function ( json ) {
+					for(let i = 0; i < json.results.length; i++){
+						let text_mapping = {1: 'Yes', 0: 'No'};
+						json.results[i].is_ipv4_exiting_allowed = text_mapping[json.results[i].is_ipv4_exiting_allowed];
+						json.results[i].is_ipv6_exiting_allowed = text_mapping[json.results[i].is_ipv6_exiting_allowed];
+
+						json.results[i].nickname = '<a href="/relays/details/' + 
+							json.results[i].fingerprint + '" target="_blank">' +
+							json.results[i].nickname + '</a>';
+
+						let status_mapping = {'online': 'Online', 'offline': 'Offline'};
+						json.results[i].status = status_mapping[json.results[i].status];
+					}
+					return json.results;
+				}
+			},
+			'columns': [
+				{ 'defaultContent': '&nbsp;&nbsp;', className: 'table_status_indicator', 'targets': [0], 'searchable': false, 'orderable': false, 'visible': true  },
+				{ 'defaultContent': 'N/A', 'data': 'nickname' },
+				{ 'defaultContent': 'N/A', 'data': 'address' },
+				{ 'defaultContent': 'N/A', 'data': 'is_ipv4_exiting_allowed' },
+				{ 'defaultContent': 'N/A', 'data': 'is_ipv6_exiting_allowed' },
+				{ 'defaultContent': 'N/A', 'data': 'country' },
+				{ 'defaultContent': 'N/A', 'data': 'status' },
+				{ 'defaultContent': 'N/A', 'data': 'captcha_rate' }
+			],
+			'order': [[ 1, '#{results_order}' ]],
+			//'pageLength': 20
+			"oSearch": { "sSearch": decodeURIComponent(window.location.hash.substring(1)) },
+			rowCallback: function(row, data, index){
+				if(data.status == 'Online'){
+					$(row).find('td:eq(0)').css('background-color', '#28a745');
+				}else{
+					$(row).find('td:eq(0)').css('background-color', '#dc3545');
+				}
+			}
+		} );
+
+		// Get what is entered into the search box and place it into the url
+		$('#search_table').on('search.dt', function() {
+			var value = $('.dataTables_filter input').val();
+			window.location.hash = value;
+			//window.location.search = value;
+			//console.log(value);
+		}); 
+
+	} );
