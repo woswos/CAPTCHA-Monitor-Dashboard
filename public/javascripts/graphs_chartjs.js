@@ -219,7 +219,7 @@ function createLinePlot(elementId, x_axis_labels, datasets, legend_position) {
             scales: {
                 xAxes: [{
                     ticks: {
-                        autoSkip: false,
+                        autoSkip: true,
                         minRotation: 30,
                         fontSize: 15,
                         minor: {

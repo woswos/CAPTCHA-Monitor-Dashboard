@@ -425,7 +425,7 @@ function dateFormat(date) {
     return date.toISOString().split('T')[0]
 }
 
-function classify_by_date(rows, attribute, max_days_prior = 5) {
+function classify_by_date(rows, attribute, max_days_prior = 30) {
 
     let today = new Date();
     let labels = [];
