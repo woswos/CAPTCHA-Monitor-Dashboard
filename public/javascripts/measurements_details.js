@@ -19,14 +19,13 @@ function createText(api) {
     document.getElementById('details_captchamonitor_version').innerHTML = api.results[0].captchamonitor_version;
     //document.getElementById('details_expected_hash').innerHTML = api.results[0].expected_hash;
 
-    let method_mapping = {
-        'tor_browser': 'Tor Browser',
+    let method_mapping = {'tor_browser': 'Tor Browser',
         'firefox': 'Firefox',
-        'chrome': 'Chrome',
-        'firefox_over_tor': 'Firefox Over Tor',
-        'chrome_over_tor': 'Chrome Over Tor',
-        'curl': 'cURL'
-    };
+        'chromium': 'Chromium',
+        'firefox_over_tor':'Firefox Over Tor',
+        'chromium_over_tor':'Chromium Over Tor',
+        'curl':'cURL'
+        };
 
     document.getElementById('details_method').innerHTML = method_mapping[api.results[0].method];
 
@@ -40,7 +39,8 @@ function createText(api) {
     let security_level_mapping = {
         'low': 'Standard',
         'medium': 'Safer',
-        'high': 'Safest'
+        'high': 'Safest',
+        '': 'N/A'
     };
     document.getElementById('details_tbb_security_level').innerHTML = security_level_mapping[api.results[0].tbb_security_level];
 
