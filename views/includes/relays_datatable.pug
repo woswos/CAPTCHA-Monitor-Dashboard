@@ -15,6 +15,10 @@ script(type="text/javascript").
 
 						let status_mapping = {'online': 'Online', 'offline': 'Offline'};
 						json.results[i].status = status_mapping[json.results[i].status];
+
+						if(json.results[i].captcha_probability != null){
+							json.results[i].captcha_probability = (json.results[i].captcha_probability * 1.0).toFixed(2) + '%';
+						}
 					}
 					return json.results;
 				}
@@ -27,7 +31,7 @@ script(type="text/javascript").
 				{ 'defaultContent': 'N/A', 'data': 'is_ipv6_exiting_allowed' },
 				{ 'defaultContent': 'N/A', 'data': 'country' },
 				{ 'defaultContent': 'N/A', 'data': 'status' },
-				{ 'defaultContent': 'N/A', 'data': 'captcha_rate' }
+				{ 'defaultContent': 'N/A', 'data': 'captcha_probability' }
 			],
 			'order': [[ 1, '#{results_order}' ]],
 			//'pageLength': 20

@@ -17,6 +17,14 @@ function createText(api) {
     document.getElementById('details_country').innerHTML = api.results[0].country;
     document.getElementById('details_last_updated').innerHTML = api.results[0].last_updated;
 
+
+    if(api.results[0].captcha_probability != null){
+        captcha_probability = (api.results[0].captcha_probability * 1.0).toFixed(2) + '%';
+    }else{
+        captcha_probability = 'N/A';
+    }
+    document.getElementById('details_captcha_probability').innerHTML = captcha_probability
+
     let text_mapping = {
         1: 'Yes',
         0: 'No'

@@ -15,7 +15,7 @@ router.get('/:limit?', function(req, res, next) {
         return
     }
 
-    let sql = 'SELECT nickname, fingerprint, address, is_ipv4_exiting_allowed, is_ipv6_exiting_allowed, country, status FROM relays ORDER BY nickname ASC LIMIT ' + req.params.limit;
+    let sql = 'SELECT nickname, fingerprint, address, is_ipv4_exiting_allowed, is_ipv6_exiting_allowed, country, status, captcha_probability FROM relays ORDER BY nickname ASC LIMIT ' + req.params.limit;
 
     let params = []
     db.all(sql, params, (err, rows) => {
