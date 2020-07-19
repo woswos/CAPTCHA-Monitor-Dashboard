@@ -15,10 +15,10 @@ router.get('/:limit?', function(req, res, next) {
         return
     }
 
-    let sql = 'SELECT id, timestamp, method, url, exit_node, is_captcha_found, is_data_modified, tbb_security_level, browser_version FROM results ORDER BY timestamp DESC LIMIT ' + req.params.limit;
+    let sql = `SELECT id, TO_CHAR(timestamp,'YYYY-MM-DD HH24:MI:SS') as "timestamp", method, url, exit_node, is_captcha_found, is_data_modified, tbb_security_level, browser_version FROM results ORDER BY timestamp DESC LIMIT ` + req.params.limit;
 
     let params = []
-    db.all(sql, params, (err, rows) => {
+    db.query(sql, params, (err, db_result) => {
         if (err) {
             res.status(400).json({
                 "error": err.message
@@ -28,7 +28,7 @@ router.get('/:limit?', function(req, res, next) {
 
         let result_json = {
             "message": "success",
-            "results": rows
+            "results": db_result.rows
         }
 
         res.json(result_json);
@@ -41,10 +41,10 @@ router.get('/details/:id', function(req, res, next) {
 
     let db = dbHandle.connect();
 
-    let sql = 'SELECT * FROM results WHERE id = ?';
+    let sql = 'SELECT * FROM results WHERE id = $1';
 
     let params = [req.params.id]
-    db.all(sql, params, (err, rows) => {
+    db.query(sql, params, (err, db_result) => {
         if (err) {
             res.status(400).json({
                 "error": err.message
@@ -54,7 +54,7 @@ router.get('/details/:id', function(req, res, next) {
 
         let result_json = {
             "message": "success",
-            "results": rows
+            "results": db_result.rows
         }
 
         res.json(result_json);

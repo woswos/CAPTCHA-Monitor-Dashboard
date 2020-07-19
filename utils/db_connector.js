@@ -1,25 +1,27 @@
-const sqlite3 = require('sqlite3').verbose();
+let db_user = process.env.CM_DB_USER;
+let db_pass = process.env.CM_DB_PASS;
+let db_host = process.env.CM_DB_HOST;
+let db_port = process.env.CM_DB_PORT;
+let db_name = process.env.CM_DB_NAME;
 
-// Get the database file from the environment variable
-let db_file = process.env.CM_DB_FILE_PATH;
+const pg = require('pg');
 
 module.exports = {
     connect: function() {
-        let db = new sqlite3.Database(db_file, sqlite3.OPEN_READONLY, (err) => {
-            if (err) {
-                return console.error(err.message);
-            }
-            //console.log('Connected to the SQlite database.');
+        const pool = new pg.Pool({
+            user: db_user,
+            host: db_host,
+            database: db_name,
+            password: db_pass,
+            port: db_port
         });
-
-        return db;
+        return pool;
     },
     close: function(db) {
-        db.close((err) => {
+        db.end((err) => {
             if (err) {
                 return console.error(err.message);
             }
-            //console.log('Close the database connection.');
         });
     }
 }

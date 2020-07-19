@@ -3,12 +3,12 @@ var router = express.Router();
 var dbHandle = require('../utils/db_connector.js');
 
 let sql_get_groupped_urls_by_is_captcha_found = `
-SELECT results.timestamp, results.url, results.is_captcha_found, urls.is_https, urls.supports_ipv4, urls.supports_ipv6, count(*) AS 'count'
+SELECT results.timestamp::date, results.url, results.is_captcha_found, urls.is_https, urls.supports_ipv4, urls.supports_ipv6, count(*) AS "count"
 FROM results
 INNER JOIN urls on results.url = urls.url
-GROUP BY results.is_captcha_found, results.url, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
-ORDER BY timestamp DESC
-LIMIT 500
+WHERE timestamp > current_date - interval '30 days'
+GROUP BY results.is_captcha_found, results.url, urls.is_https, urls.supports_ipv4, urls.supports_ipv6, results.timestamp::date
+ORDER BY timestamp::date DESC
 `;
 
 router.get('/is_captcha_found/tbb_security_levels', function(req, res, next) {
@@ -16,16 +16,15 @@ router.get('/is_captcha_found/tbb_security_levels', function(req, res, next) {
     let db = dbHandle.connect();
 
     let sql = `
-    SELECT timestamp, tbb_security_level, is_captcha_found, count(*) AS 'count'
+    SELECT timestamp::date, tbb_security_level, is_captcha_found, count(*) AS "count"
     FROM results
-    WHERE results.method = 'tor_browser'
-    GROUP BY tbb_security_level, is_captcha_found, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
-    ORDER BY timestamp DESC
-    LIMIT 500
+    WHERE results.method = 'tor_browser' AND timestamp > current_date - interval '30 days'
+    GROUP BY tbb_security_level, is_captcha_found, timestamp::date
+    ORDER BY timestamp::date DESC
     `;
 
     let params = []
-    db.all(sql, params, (err, rows) => {
+    db.query(sql, params, (err, db_result) => {
         if (err) {
             res.status(400).json({
                 "error": err.message
@@ -33,7 +32,7 @@ router.get('/is_captcha_found/tbb_security_levels', function(req, res, next) {
             return;
         }
 
-        let classified = classify_by_date(rows, 'tbb_security_level')
+        let classified = classify_by_date(db_result.rows, 'tbb_security_level')
 
         let result = {
             "message": "success",
@@ -58,16 +57,15 @@ router.get('/is_captcha_found/tbb_versions', function(req, res, next) {
     let db = dbHandle.connect();
 
     let sql = `
-    SELECT results.timestamp, results.browser_version, results.is_captcha_found, count(*) AS 'count'
+    SELECT timestamp::date, browser_version, is_captcha_found, count(*) AS "count"
     FROM results
-    WHERE results.method = 'tor_browser'
-    GROUP BY results.is_captcha_found, results.browser_version, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
-    ORDER BY timestamp DESC
-    LIMIT 500
+    WHERE results.method = 'tor_browser' AND timestamp > current_date - interval '30 days'
+    GROUP BY browser_version, is_captcha_found, timestamp::date
+    ORDER BY timestamp::date DESC
     `;
 
     let params = []
-    db.all(sql, params, (err, rows) => {
+    db.query(sql, params, (err, db_result) => {
         if (err) {
             res.status(400).json({
                 "error": err.message
@@ -75,7 +73,7 @@ router.get('/is_captcha_found/tbb_versions', function(req, res, next) {
             return;
         }
 
-        let classified = classify_by_date(rows, 'browser_version')
+        let classified = classify_by_date(db_result.rows, 'browser_version')
 
         let data = {}
         for (let key in classified.data_bins) {
@@ -101,16 +99,15 @@ router.get('/is_captcha_found/country', function(req, res, next) {
     let db = dbHandle.connect();
 
     let sql = `
-    SELECT results.is_captcha_found, results.exit_node, relays.country, count(*) AS 'count'
+    SELECT results.is_captcha_found, relays.country, count(*) AS "count"
     FROM results
     INNER JOIN relays on results.exit_node = relays.address
     WHERE results.is_captcha_found = '1'
-    GROUP BY results.is_captcha_found, relays.country, relays.address
-    LIMIT 1000
+    GROUP BY results.is_captcha_found, relays.country
     `;
 
     let params = []
-    db.all(sql, params, (err, rows) => {
+    db.query(sql, params, (err, db_result) => {
         if (err) {
             res.status(400).json({
                 "error": err.message
@@ -118,7 +115,7 @@ router.get('/is_captcha_found/country', function(req, res, next) {
             return;
         }
 
-        let classified = classify_for_pie_chart(rows, 'country')
+        let classified = classify_for_pie_chart(db_result.rows, 'country')
 
         let data = {};
         let total = 0;
@@ -160,16 +157,15 @@ router.get('/is_captcha_found/continent', function(req, res, next) {
     let db = dbHandle.connect();
 
     let sql = `
-    SELECT results.is_captcha_found, results.exit_node, relays.continent, count(*) AS 'count'
+    SELECT results.is_captcha_found, relays.continent, count(*) AS "count"
     FROM results
     INNER JOIN relays on results.exit_node = relays.address
     WHERE results.is_captcha_found = '1'
-    GROUP BY results.is_captcha_found, relays.continent, relays.address
-    LIMIT 1000
+    GROUP BY results.is_captcha_found, relays.continent
     `;
 
     let params = []
-    db.all(sql, params, (err, rows) => {
+    db.query(sql, params, (err, db_result) => {
         if (err) {
             res.status(400).json({
                 "error": err.message
@@ -177,7 +173,7 @@ router.get('/is_captcha_found/continent', function(req, res, next) {
             return;
         }
 
-        let classified = classify_for_pie_chart(rows, 'continent')
+        let classified = classify_for_pie_chart(db_result.rows, 'continent')
 
         let data = {};
         let total = 0;
@@ -218,15 +214,15 @@ router.get('/is_captcha_found/web_browser_type', function(req, res, next) {
     let db = dbHandle.connect();
 
     let sql = `
-    SELECT results.timestamp, results.method, results.is_captcha_found, count(*) AS 'count'
+    SELECT timestamp::date, method, is_captcha_found, count(*) AS "count"
     FROM results
-    GROUP BY results.is_captcha_found, results.method, (strftime('%s', timestamp) / (6 * 60 * 60 * 4))
-    ORDER BY timestamp DESC
-    LIMIT 500
+    WHERE timestamp > current_date - interval '30 days'
+    GROUP BY method, is_captcha_found, timestamp::date
+    ORDER BY timestamp::date DESC
     `;
 
     let params = []
-    db.all(sql, params, (err, rows) => {
+    db.query(sql, params, (err, db_result) => {
         if (err) {
             res.status(400).json({
                 "error": err.message
@@ -234,7 +230,7 @@ router.get('/is_captcha_found/web_browser_type', function(req, res, next) {
             return;
         }
 
-        let classified = classify_by_date(rows, 'method')
+        let classified = classify_by_date(db_result.rows, 'method')
 
         let data = {}
         for (let key in classified.data_bins) {
@@ -262,7 +258,7 @@ router.get('/is_captcha_found/http_vs_https', function(req, res, next) {
     let sql = sql_get_groupped_urls_by_is_captcha_found;
 
     let params = []
-    db.all(sql, params, (err, rows) => {
+    db.query(sql, params, (err, db_result) => {
         if (err) {
             res.status(400).json({
                 "error": err.message
@@ -274,6 +270,8 @@ router.get('/is_captcha_found/http_vs_https', function(req, res, next) {
             1: 'https',
             0: 'http'
         };
+
+        let rows = db_result.rows;
 
         for (let i = 0; i < rows.length; i++) {
             rows[i].http_status = https_map[rows[i].is_https]
@@ -307,7 +305,7 @@ router.get('/is_captcha_found/single_vs_multiple_http_reqs', function(req, res, 
     let sql = sql_get_groupped_urls_by_is_captcha_found;
 
     let params = []
-    db.all(sql, params, (err, rows) => {
+    db.query(sql, params, (err, db_result) => {
         if (err) {
             res.status(400).json({
                 "error": err.message
@@ -321,6 +319,8 @@ router.get('/is_captcha_found/single_vs_multiple_http_reqs', function(req, res, 
             'http://exit11.online',
             'https://exit11.online'
         ]
+
+        let rows = db_result.rows;
 
         for (let i = 0; i < rows.length; i++) {
             if (single_list.indexOf(rows[i].url) >= 0) {
@@ -358,7 +358,7 @@ router.get('/is_captcha_found/ip_versions', function(req, res, next) {
     let sql = sql_get_groupped_urls_by_is_captcha_found;
 
     let params = []
-    db.all(sql, params, (err, rows) => {
+    db.query(sql, params, (err, db_result) => {
         if (err) {
             res.st
             atus(400).json({
@@ -366,6 +366,8 @@ router.get('/is_captcha_found/ip_versions', function(req, res, next) {
             });
             return;
         }
+
+        let rows = db_result.rows;
 
         for (let i = 0; i < rows.length; i++) {
             if (rows[i].supports_ipv6 == '1') {
@@ -463,10 +465,10 @@ function classify_by_date(rows, attribute, max_days_prior = 30) {
 
                         //console.log('selected_date: ', selected_date, '->', rows[i][attribute], '-> count: ', rows[i].count, '-> CAPTCHA?: ', rows[i].is_captcha_found)
 
-                        total_count += rows[i].count;
+                        total_count += Number(rows[i].count);
 
                         if (rows[i].is_captcha_found == '1') {
-                            captcha_faced_count += rows[i].count;
+                            captcha_faced_count += Number(rows[i].count);
                         }
 
                     }
@@ -514,10 +516,10 @@ function classify_for_pie_chart(rows, attribute) {
             // Find the ones that match the data bin
             if (rows[i][attribute] == data_bins_key) {
 
-                total_count += rows[i].count;
+                total_count += Number(rows[i].count);
 
                 if (rows[i].is_captcha_found == '1') {
-                    captcha_faced_count += rows[i].count;
+                    captcha_faced_count += Number(rows[i].count);
                 }
 
             }

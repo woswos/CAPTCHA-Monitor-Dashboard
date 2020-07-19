@@ -18,7 +18,7 @@ router.get('/:limit?', function(req, res, next) {
     let sql = 'SELECT nickname, fingerprint, address, is_ipv4_exiting_allowed, is_ipv6_exiting_allowed, country, status, captcha_probability FROM relays ORDER BY nickname ASC LIMIT ' + req.params.limit;
 
     let params = []
-    db.all(sql, params, (err, rows) => {
+    db.query(sql, params, (err, db_result) => {
         if (err) {
             res.status(400).json({
                 "error": err.message
@@ -28,7 +28,7 @@ router.get('/:limit?', function(req, res, next) {
 
         let result_json = {
             "message": "success",
-            "results": rows
+            "results": db_result.rows
         }
 
         res.json(result_json);
@@ -41,10 +41,10 @@ router.get('/details/:fingerprint', function(req, res, next) {
 
     let db = dbHandle.connect();
 
-    let sql = 'SELECT * FROM relays WHERE fingerprint = ?';
+    let sql = 'SELECT * FROM relays WHERE fingerprint = $1';
 
     let params = [req.params.fingerprint]
-    db.all(sql, params, (err, rows) => {
+    db.query(sql, params, (err, db_result) => {
         if (err) {
             res.status(400).json({
                 "error": err.message
@@ -54,7 +54,7 @@ router.get('/details/:fingerprint', function(req, res, next) {
 
         let result_json = {
             "message": "success",
-            "results": rows
+            "results": db_result.rows
         }
 
         res.json(result_json);
