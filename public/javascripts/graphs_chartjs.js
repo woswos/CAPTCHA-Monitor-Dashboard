@@ -47,6 +47,7 @@ function dataset(label, borderColor, data, fill = false, lineTension = 0.3) {
     this.pointRadius = 4;
     this.pointHoverRadius = 6;
     this.backgroundColor = borderColor;
+    this.spanGaps = true;
     //this.borderDash = [10,5];
 }
 
