@@ -24,7 +24,9 @@ function createText(api) {
         'chromium': 'Chromium',
         'firefox_over_tor':'Firefox Over Tor',
         'chromium_over_tor':'Chromium Over Tor',
-        'curl':'cURL'
+        'curl':'cURL',
+        'brave':'Brave',
+        'brave_over_tor':'Brave\'s Tor Window',
         };
 
     document.getElementById('details_method').innerHTML = method_mapping[api.results[0].method];
