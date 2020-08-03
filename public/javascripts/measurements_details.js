@@ -22,11 +22,15 @@ function createText(api) {
     let method_mapping = {'tor_browser': 'Tor Browser',
         'firefox': 'Firefox',
         'chromium': 'Chromium',
-        'firefox_over_tor':'Firefox Over Tor',
-        'chromium_over_tor':'Chromium Over Tor',
+        'firefox_over_tor':'Firefox over Tor',
+        'chromium_over_tor':'Chromium over Tor',
         'curl':'cURL',
         'brave':'Brave',
         'brave_over_tor':'Brave\'s Tor Window',
+        'curl': 'cURL',
+        'curl_over_tor': 'cURL over Tor',
+        'requests': 'Python\'s requests library',
+        'requests_over_tor': 'Python\'s requests library over Tor',
         };
 
     document.getElementById('details_method').innerHTML = method_mapping[api.results[0].method];
