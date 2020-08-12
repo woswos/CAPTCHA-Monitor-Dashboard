@@ -160,6 +160,9 @@ function createGraph(graph_name, api, plot_type, legend_position = 'bottom') {
 
 // Finally places all variables into the chartjs code
 function createPiePlot(elementId, x_axis_labels, datasets, legend_position) {
+    // Set pixel ratio to 2 to accommodate retina screens
+    window.devicePixelRatio = 2
+
     let ctx = document.getElementById(elementId).getContext('2d');
     let chart = new Chart(ctx, {
         // The type of chart we want to create
@@ -217,6 +220,9 @@ function createPiePlot(elementId, x_axis_labels, datasets, legend_position) {
 
 // Finally places all variables into the chartjs code
 function createLinePlot(elementId, x_axis_labels, datasets, legend_position) {
+    // Set pixel ratio to 2 to accommodate retina screens
+    window.devicePixelRatio = 2
+    
     let ctx = document.getElementById(elementId).getContext('2d');
     let chart = new Chart(ctx, {
         // The type of chart we want to create
